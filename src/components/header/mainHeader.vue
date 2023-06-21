@@ -6,10 +6,7 @@
 
 <script>
 export default {
-    name: 'customHeader',
-    created() {
-        console.log("test")
-    }
+    name: 'mainHeader'
 }
 </script>
   

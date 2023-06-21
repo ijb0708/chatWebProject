@@ -1,10 +1,16 @@
 <template>
-    <div class="login-form-container">
-        <registerForm />
-    </div>
+    <mainHeader />
+    <v-main>
+        <div class="register-form-container">
+            <registerForm @clickConfirm="handleClickConfirm"/>
+        </div>
+    </v-main>
+    <mainFooter />
 </template>
   
 <script>
+import mainHeader from '@/components/header/mainHeader.vue';
+import mainFooter from '@/components/footer/mainFooter.vue';
 import registerForm from '@/components/registerForm.vue'
 export default {
     name: 'registerView',
@@ -13,15 +19,20 @@ export default {
         }
     },
     components: {
-        registerForm
+        registerForm,
+        mainHeader,
+        mainFooter
     },
     methods: {
+        handleClickConfirm(data) {
+            console.log(data)
+        }
     }
 }
 </script>
 
 <style>
-    .login-form-container {
+    .register-form-container {
         display: flex;
         justify-content: center;
         align-items: center;

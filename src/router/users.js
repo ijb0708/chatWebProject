@@ -1,4 +1,3 @@
-import home from '@/views/Home.vue'
 import loginView from '@/views/loginView.vue'
 import registerView from '@/views/registerView.vue'
 

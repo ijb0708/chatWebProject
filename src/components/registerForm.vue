@@ -3,8 +3,8 @@
         <v-row justify="center" align="center" class="login-row">
             <v-col cols="12" sm="8" md="6" lg="4">
                 <v-card>
-                    <v-card-title class="text-center">회원가입</v-card-title>
                     <v-form ref="form">
+                        <v-card-title class="text-center">회원가입</v-card-title>
                         <v-card-text>
                             <v-text-field
                                 v-model="fields.userid"
@@ -13,8 +13,8 @@
                                 required
                                 :rules="[
                                     value => Boolean(value) || '*아이디를 입력해주세요',
-                                    value => value.length > 8 || '*아이디는 8자리 이상입니다.',
-                                    value => value.length < 18 || '*아이디는 18자리 이하입니다.',
+                                    value => value.length >= 8 || '*아이디는 8자리 이상입니다.',
+                                    value => value.length <= 18 || '*아이디는 18자리 이하입니다.',
                                 ]"
                             ></v-text-field>
                             <v-text-field
@@ -24,8 +24,8 @@
                                 required
                                 :rules="[
                                     value => Boolean(value) || '*닉네임을 입력해주세요',
-                                    value => value.length > 4 || '*닉네임은 4자리 이상입니다.',
-                                    value => value.length < 10 || '*닉네임은 10자리 이하입니다.',
+                                    value => value.length >= 4 || '*닉네임은 4자리 이상입니다.',
+                                    value => value.length <= 10 || '*닉네임은 10자리 이하입니다.',
                                 ]"
                             ></v-text-field>
                             <v-text-field
@@ -36,8 +36,8 @@
                                 required
                                 :rules="[
                                     value => Boolean(value) || '*비밀번호를 입력해주세요',
-                                    value => value.length > 8 || '*비밀번호는 8자리 이상입니다.',
-                                    value => value.length < 20 || '*비밀번호는 20자리 이하입니다.',
+                                    value => value.length >= 8 || '*비밀번호는 8자리 이상입니다.',
+                                    value => value.length <= 20 || '*비밀번호는 20자리 이하입니다.',
                                 ]"
                             ></v-text-field>
                             <v-text-field
@@ -48,8 +48,8 @@
                                 required
                                 :rules="[
                                     value => Boolean(value) || '*비밀번호를 입력해주세요',
-                                    value => value.length > 8 || '*비밀번호는 8자리 이상입니다.',
-                                    value => value.length < 20 || '*비밀번호는 20자리 이하입니다.',
+                                    value => value.length >= 8 || '*비밀번호는 8자리 이상입니다.',
+                                    value => value.length <= 20 || '*비밀번호는 20자리 이하입니다.',
                                     value => value == this.fields.password || '*비밀번호와 비밀번호확인 다릅니다.'
                                 ]"
                             ></v-text-field>
@@ -66,9 +66,9 @@
     </v-container>
 </template>
     
-  <script>
-    export default {
-      data() {
+<script>
+export default {
+    data() {
         return {
             fields: {
                 userid: '',
@@ -76,12 +76,18 @@
                 password: '',
                 confirmPassword: '',
             }
-        };
-      },
-      methods: {
+        }
+    },
+    methods: {
         clickConfirm() {
-            this.valid()
-            console.log("완료")
+            if( !this.$refs.form.validate() ) {
+                return
+            }
+            this.$emit('clickConfirm', {
+                userid: this.fields.userid,
+                nickname: this.fields.nickname,
+                password: this.fields.password
+            })
         },
         valid() {
             if( !this.$refs.form.validate() ) {
@@ -89,7 +95,7 @@
             }
             return true
         }
-      },
-    }
-  </script>
+    },
+}
+</script>
     

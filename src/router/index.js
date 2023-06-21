@@ -1,23 +1,24 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
-import home from '@/views/Home.vue'
 import test from '@/router/test'
 import users from '@/router/users'
+import rooms from './rooms'
 
 const routes = [
-  {
-    path: '/',
-    component: home,
-    // children: [
-    //   {
-    //     path: '',
-    //     name: 'Home',
-    //     component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
-    //   },
-    // ],
-  },
+  // {
+  //   path: '/',
+  //   component: home,
+  //   // children: [
+  //   //   {
+  //   //     path: '',
+  //   //     name: 'Home',
+  //   //     component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
+  //   //   },
+  //   // ],
+  // },
   test,
-  users
+  users,
+  rooms
 ]
 
 const router = createRouter({
