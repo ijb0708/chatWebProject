@@ -1,27 +1,73 @@
 <template>
-    <mainHeader />
+    <refreshHeader 
+        headerName="ROOMS"
+        @clickBackBtn="handleClickBackBtn" 
+        @clickRefreshBtn="handleClickRefreshBtn"
+    />
     <v-main>
-        <roomList />
+        <roomList 
+            :list="this.array.roomList"
+            @clickEnterRoom="handleClickEnterRoom"
+            @clickDeleteRoom="handleClickDeleteRoom"
+        />
     </v-main>
-    <createRoomFooter />
+    <createRoomFooter
+        @clickCreateRoom="handleClickCreateRoom"
+    />
 </template>
   
 <script>
-import mainHeader from '@/components/header/mainHeader.vue';
+import refreshHeader from '@/components/header/refreshHeader.vue';
 import createRoomFooter from '@/components/footer/createRoomFooter.vue';
-import roomList from '@/components/roomList.vue'
+import roomList from '@/components/list/roomList.vue'
 export default {
     name: 'roomListView',
     data() {
         return {
+            array: {
+                roomList: []
+            }
         }
     },
     components: {
         roomList,
-        mainHeader,
+        refreshHeader,
         createRoomFooter
     },
+    created() {
+        this.refreshRoomList()
+    },
     methods: {
+        handleClickBackBtn() {
+            // 로그아웃하고 나가기
+			this.$store.dispatch('auth/resetToken')
+            this.$router.push('/')
+        },
+        async handleClickRefreshBtn() {
+            this.refreshRoomList()
+        },
+        async handleClickCreateRoom(data) {
+            const resData = await this.$axios.registerRoom(data)
+            refreshRoomList()
+            console.log(resData)
+        },
+        async handleClickEnterRoom(data) {
+            console.log(data)
+            const resData = await this.$axios.enterRoom(data)
+            console.log(resData)
+            if( !resData.isSucc ) {
+                return 
+            }
+            this.$router.push('/rooms/chat?room_access_token=' + resData.room_access_token);
+        },
+        async handleClickDeleteRoom(data) {
+            console.log(data)
+            await this.$axios.deleteRoom(data)
+        },
+        async refreshRoomList() {
+            const resData = await this.$axios.listAllRooms()
+            this.array.roomList = resData.data.rooms
+        }
     }
 }
 </script>

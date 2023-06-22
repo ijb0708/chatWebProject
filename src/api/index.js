@@ -1,17 +1,9 @@
-import customAxios from '@/api/axiosInit'
+import * as requests from './requests'
 
-/**
- * 어드민 후기 단건 조회
- * @param {*} id 아이디
- * @returns
- */
-export const getReviewById = async id => {
-  try {
-    const review = await customAxios.get(`/admin/review/detail?id=${id}`);
-    console.log(review.data)
-    return review.data;
-  } catch (e) {
-    console.log(e);
-  }
+export default {
+    install(app) {
+        app.config.globalProperties.$axios = {
+            ...requests
+        }
+    }
 }
-

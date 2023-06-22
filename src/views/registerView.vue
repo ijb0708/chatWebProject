@@ -1,5 +1,5 @@
 <template>
-    <mainHeader />
+    <backHeader headerName="chat" @clickBackBtn="handleClickBackBtn"/>
     <v-main>
         <div class="register-form-container">
             <registerForm @clickConfirm="handleClickConfirm"/>
@@ -9,9 +9,9 @@
 </template>
   
 <script>
-import mainHeader from '@/components/header/mainHeader.vue';
+import backHeader from '@/components/header/backHeader.vue'
 import mainFooter from '@/components/footer/mainFooter.vue';
-import registerForm from '@/components/registerForm.vue'
+import registerForm from '@/components/form/registerForm.vue'
 export default {
     name: 'registerView',
     data() {
@@ -20,12 +20,17 @@ export default {
     },
     components: {
         registerForm,
-        mainHeader,
+        backHeader,
         mainFooter
     },
     methods: {
-        handleClickConfirm(data) {
-            console.log(data)
+        async handleClickConfirm(data) {
+            
+            const resData = await this.$axios.registerUser(data.userid, data.nickname, data.password)
+            this.$router.push('/')
+        },
+        handleClickBackBtn() {
+            this.$router.push('/')
         }
     }
 }

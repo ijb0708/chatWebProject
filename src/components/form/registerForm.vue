@@ -15,7 +15,9 @@
                                     value => Boolean(value) || '*아이디를 입력해주세요',
                                     value => value.length >= 8 || '*아이디는 8자리 이상입니다.',
                                     value => value.length <= 18 || '*아이디는 18자리 이하입니다.',
+                                    () => states.checklDupl || '*아이디가 중복되었습니다.'
                                 ]"
+                                @input="states.checklDupl = true"
                             ></v-text-field>
                             <v-text-field
                                 v-model="fields.nickname"
@@ -24,7 +26,7 @@
                                 required
                                 :rules="[
                                     value => Boolean(value) || '*닉네임을 입력해주세요',
-                                    value => value.length >= 4 || '*닉네임은 4자리 이상입니다.',
+                                    value => value.length >= 3 || '*닉네임은 3자리 이상입니다.',
                                     value => value.length <= 10 || '*닉네임은 10자리 이하입니다.',
                                 ]"
                             ></v-text-field>
@@ -70,6 +72,9 @@
 export default {
     data() {
         return {
+            states: {
+                checklDupl: true
+            },
             fields: {
                 userid: '',
                 nickname: '',
@@ -79,21 +84,22 @@ export default {
         }
     },
     methods: {
-        clickConfirm() {
-            if( !this.$refs.form.validate() ) {
+        async clickConfirm() {
+
+            const resData = await this.$axios.idDupCheck(this.fields.userid)
+            this.states.checklDupl = !resData.dupl
+
+			const { valid } = await this.$refs.form.validate()
+            if( !valid ) {
                 return
             }
+
             this.$emit('clickConfirm', {
                 userid: this.fields.userid,
                 nickname: this.fields.nickname,
                 password: this.fields.password
             })
-        },
-        valid() {
-            if( !this.$refs.form.validate() ) {
-                return false
-            }
-            return true
+            
         }
     },
 }

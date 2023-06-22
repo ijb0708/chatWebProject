@@ -2,27 +2,22 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import test from '@/router/test'
 import users from '@/router/users'
-import rooms from './rooms'
+import rooms from '@/router/rooms'
+
+import loginView from '@/views/loginView.vue'
 
 const routes = [
-  // {
-  //   path: '/',
-  //   component: home,
-  //   // children: [
-  //   //   {
-  //   //     path: '',
-  //   //     name: 'Home',
-  //   //     component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
-  //   //   },
-  //   // ],
-  // },
-  test,
+  {
+    path: '/',
+    component: loginView
+  },
+  // test,
   users,
   rooms
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(import.meta.env.VITE_BASE_URL),
   routes,
 })
 

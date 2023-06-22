@@ -11,6 +11,11 @@
 								label="아이디"
 								outlined
 								required
+                                :rules="[
+                                    value => Boolean(value) || '*아이디를 입력해주세요',
+                                    value => value.length >= 8 || '*아이디는 8자리 이상입니다.',
+                                    value => value.length <= 20 || '*아이디는 20자리 이하입니다.',
+                                ]"
 							></v-text-field>
 							<v-text-field
 								v-model="this.fields.password"
@@ -18,6 +23,11 @@
 								outlined
 								type="password"
 								required
+                                :rules="[
+                                    value => Boolean(value) || '*비밀번호를 입력해주세요',
+                                    value => value.length >= 8 || '*비밀번호는 8자리 이상입니다.',
+                                    value => value.length <= 20 || '*비밀번호는 20자리 이하입니다.',
+                                ]"
 							></v-text-field>
 							<v-row justify="center">
 								<v-col cols="auto">
@@ -47,13 +57,15 @@ export default {
 		};
 	},
 	methods: {
-		clickLogin() {
-            if( !this.$refs.form.validate() ) {
+		async clickLogin() {
+			const { valid } = await this.$refs.form.validate()
+            if( !valid ) {
                 return
             }
+			
 			this.$emit('clickLogin', {
-				userid: this.userid,
-				password: this.password
+				userid: this.fields.userid,
+				password: this.fields.password
 			})
 		},
 		clickGoRegister() {

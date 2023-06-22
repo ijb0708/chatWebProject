@@ -3,7 +3,7 @@
       class="mx-auto"
     >
       <v-list>
-        <template v-if="roomList.length === 0">
+        <template v-if="list.length === 0">
             <v-list-item>
                 생성되어 있는 방이 없습니다.
             </v-list-item>
@@ -11,11 +11,11 @@
         <template v-else>
             <v-list-subheader inset>Rooms</v-list-subheader>
             <v-list-item 
-                v-for="(room, idx) in roomList" 
+                v-for="(item, idx) in list" 
                 :key="idx"
-                :title="room.name"
+                :title="item.room_name"
                 color="primary"
-                @click="clickEnterRoom(room.room_seq)"
+                @click="clickEnterRoom(item.room_seq)"
             >
                 <template v-slot:prepend>
                     <v-avatar>
@@ -24,7 +24,7 @@
                 </template>
                 
                 <!-- <template v-slot:subtitle>
-                    test
+                    admin: {{ room. }}
                 </template> -->
 
                 <template v-slot:append>
@@ -32,7 +32,7 @@
                         color="grey-lighten-1"
                         icon="mdi-delete"
                         variant="text"
-                        @click.stop="clickDeleteRoom(room.room_seq)"
+                        @click.stop="clickDeleteRoom(item.room_seq)"
                     ></v-btn>
                 </template>
             </v-list-item>
@@ -45,11 +45,19 @@
 export default {
     name: 'roomList',
     props: {
-        roomList: {
+        list: {
             type: Array,
             default: []
         }
     },
+    methods: {
+        clickEnterRoom(room_seq) {
+            this.$emit('clickEnterRoom', room_seq)
+        },
+        clickDeleteRoom(room_seq) {
+            this.$emit('clickDeleteRoom', room_seq)
+        }
+    }
 }
 </script>
 
