@@ -48,7 +48,7 @@ export default {
         },
         async handleClickCreateRoom(data) {
             const resData = await this.$axios.registerRoom(data)
-            refreshRoomList()
+            this.refreshRoomList()
             console.log(resData)
         },
         async handleClickEnterRoom(data) {
@@ -61,8 +61,17 @@ export default {
             this.$router.push('/rooms/chat?room_access_token=' + resData.room_access_token);
         },
         async handleClickDeleteRoom(data) {
-            console.log(data)
-            await this.$axios.deleteRoom(data)
+            try {
+                const resData = await this.$axios.deleteRoom(data)
+                console.log(resData)
+                if(resData.isSucc) {
+                    alert("방삭제가 완료 되었습니다.")
+                }else {
+                    alert(resData.message)
+                }
+            } catch(err) {
+                console.log(resData)
+            }
         },
         async refreshRoomList() {
             const resData = await this.$axios.listAllRooms()

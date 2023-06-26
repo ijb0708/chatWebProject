@@ -62,7 +62,7 @@ export const enterRoom = async (roomSeq) => {
 
 export const deleteRoom = async (roomSeq) => {
     try {
-        const room = await customAxios.post('/rooms/enterRoom', {
+        const room = await customAxios.post('/rooms/deleteRoom', {
             room_seq: roomSeq
         })
         return room.data
