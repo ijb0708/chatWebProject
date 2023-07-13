@@ -2,8 +2,6 @@ package com.jb.minetownapi.config;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
-import jakarta.annotation.PostConstruct;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,14 +11,20 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Slf4j
+@Component
 public class JwtTokenProvider {
 
     @Value("${jwt.secret.key}")
     private String SECRET_KEY;
 
-    private final long EXPIRATION_MS = 240 * 60 * 1000L;
-
-    // jwt 토큰생성
+//    @Value("{jwt.expiration.ms}")
+    private final long EXPIRATION_MS = 144000L;
+    
+    /**
+     *
+     * @param userId
+     * @return
+     */
     public String generateToken(String userId) {
 
         Date now = new Date();
@@ -39,7 +43,12 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }
-
+    
+    /**
+     *
+     * @param token
+     * @return
+     */
     public String getTokenInfo(String token) {
         return Jwts
                 .parser()
@@ -48,8 +57,12 @@ public class JwtTokenProvider {
                 .getBody()
                 .getSubject();
     }
-
-    // jwt 유효성 검사
+    
+    /**
+     *
+     * @param token
+     * @return
+     */
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);

@@ -13,13 +13,26 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    private final JwtTokenProvider jwtTokenProvider = new JwtTokenProvider();
+    private final JwtTokenProvider jwtTokenProvider;
 
-    public UserService(UserMapper userMapper) {
+    /**
+     *
+     * @param userMapper 유저관련 처리 매퍼
+     */
+    public UserService(
+            UserMapper userMapper,
+            JwtTokenProvider jwtTokenProvider) {
+
         this.userMapper = userMapper;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    public String login(User user) {
+    /**
+     *
+     * @param user
+     * @return
+     */
+    public String findUserLogin(User user) {
 
         try {
             String password = userMapper.selectPassword(user);
@@ -27,17 +40,24 @@ public class UserService {
                 return jwtTokenProvider.generateToken(user.getUserId());
         }catch(Exception e) {
 //            e.printStackTrace();
+
             log.error(e.getMessage());
         }
 
         return null;
     }
 
-    public User findUserDtail(String userId) {
+    /**
+     *
+     * @param userId
+     * @return User
+     */
+    public User findUser(String userId) {
         return new User("1", "2");
     }
 
-    public void signUp(User user) {
+
+    public void addUserRegister(User user) {
 
         user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
 
