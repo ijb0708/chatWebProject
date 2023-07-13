@@ -1,0 +1,52 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.1'
+	id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'com.jb'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+
+	implementation 'org.springframework.boot:spring-boot-starter-web:3.1.0'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
+	implementation 'org.springframework.boot:spring-boot-starter-security:3.0.4'
+
+	//lombok
+	compileOnly 'org.projectlombok:lombok:1.18.26'
+	annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+	//devtool
+	developmentOnly 'org.springframework.boot:spring-boot-devtools:3.0.4'
+
+	//db
+	runtimeOnly 'org.postgresql:postgresql:42.5.4'
+
+	//test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.0'
+	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.2'
+
+	//jwt
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
