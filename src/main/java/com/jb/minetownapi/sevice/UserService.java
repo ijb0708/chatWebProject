@@ -16,8 +16,9 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
 
     /**
-     *
+     * 생성자
      * @param userMapper 유저관련 처리 매퍼
+     * @param jwtTokenProvider jwt 토큰 관련 컴포넌트
      */
     public UserService(
             UserMapper userMapper,
@@ -28,39 +29,86 @@ public class UserService {
     }
 
     /**
-     *
-     * @param user
-     * @return
+     * 유저의 비밀번호가 옳은지 체크하는 함수
+     * @param user 유저계정
+     * @return 여부 반환
      */
-    public String findUserLogin(User user) {
+    public Boolean checkLoginUserPassword(User user) {
 
         try {
-            String password = userMapper.selectPassword(user);
-            if( passwordEncoder.matches(user.getUserPassword(), password) )
-                return jwtTokenProvider.generateToken(user.getUserId());
+            String password = userMapper.selectPassword(user);  // 유저
+            return passwordEncoder.matches(user.getUserPassword(), password);
         }catch(Exception e) {
-//            e.printStackTrace();
-
             log.error(e.getMessage());
         }
 
+        return false;
+    }
+    
+    /**
+     * 유저의 아이디 유효성(중복) 여부 체크
+     * @param userId 유저아이디
+     * @return 여부 반환
+     */
+    public User checkLoginUserId(String userId) {
+        
+        try {
+            return userMapper.selectUser(userId); // 유저 검색
+        }catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        
         return null;
     }
-
+    
     /**
-     *
-     * @param userId
-     * @return User
+     * 유저 아이디의
+     * @param userId 유저아이디
+     * @return 검색한 유저정보
      */
-    public User findUser(String userId) {
-        return new User("1", "2");
+    public Boolean findLoginUserId(String userId) {
+        
+        try {
+            User selectUserData = userMapper.selectUser(userId); // 유저 검색
+            return selectUserData != null;
+        }catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        
+        return false;
     }
+    
+    /**
+     * 로그인 정보 토큰 발행 함수
+     * @param userId 유저정보
+     * @return 토큰 스트링 반환
+     */
+    public String genLoginUserToken(String userId) {
+        try {
+            return jwtTokenProvider.generateToken(userId);
+        }catch(Exception e) {
+            log.error(e.getMessage());
+        }
+        
+        return null;
+    }
+    
+    /**
+     * 유저 정보 등록
+     * @param user
+     */
+    public Boolean addUserRegister(User user) {
 
-
-    public void addUserRegister(User user) {
-
-        user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
-
-        userMapper.insertUser(user);
+        try {
+            String encodePassword = passwordEncoder.encode(user.getUserPassword());
+            user.setUserPassword(encodePassword);
+    
+            userMapper.insertUser(user);
+            return true;
+        }catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        
+        return false;
     }
 }

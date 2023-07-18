@@ -5,11 +5,11 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface UserMapper {
-
+    
     int insertUser(User user);
 
     String selectPassword(User user);
 
-    boolean selectUser(String userId);
+    User selectUser(String userId);
 
 }

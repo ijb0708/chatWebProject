@@ -1,6 +1,7 @@
 package com.jb.minetownapi.controller;
 
 import com.jb.minetownapi.dto.User;
+import com.jb.minetownapi.dto.result;
 import com.jb.minetownapi.sevice.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,10 @@ public class UserController {
     @PostMapping("/login")
     public String loginUserDetail (User user) {
 
-        return userService.findUserLogin(user);
+        if( userService.checkLoginUserPassword(user) ) {
+            return userService.genLoginUserToken(user.getUserId());
+        }
+        return null;
     }
 
     /**
@@ -56,7 +60,7 @@ public class UserController {
         log.info("id : " + user.getUserId());
         log.info("passwd : " + user.getUserPassword());
 
-        return userService.findUserLogin(user);
+        return null;
     }
 
 }
