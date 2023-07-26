@@ -1,26 +1,18 @@
 package com.jb.minetownapi.controller;
 
 import com.jb.minetownapi.dto.User;
-import com.jb.minetownapi.dto.result;
 import com.jb.minetownapi.sevice.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController {
 
-    UserService userService;
-
-    /**
-     *
-     * @param userService
-     */
-    public UserController(UserService userService) {
-
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     /**
      *

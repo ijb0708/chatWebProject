@@ -12,6 +12,4 @@ public class User {
     private String userId;
     @NonNull
     private String userPassword;
-    private Date created_at;
-    private Date updated_at;
 }

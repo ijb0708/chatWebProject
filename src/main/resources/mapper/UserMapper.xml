@@ -12,7 +12,7 @@
             (#{userId}, 'test', #{userPassword});
     </insert>
 
-    <select id="selectPassword" resultType="java.lang.String">
+    <select id="selectOnePassword" resultType="java.lang.String">
         SELECT
             user_password
         FROM
@@ -21,7 +21,7 @@
             user_id = #{userId};
     </select>
 
-    <select id="selectUser">
+    <select id="selectOneUser">
         SELECT
             *
         FROM

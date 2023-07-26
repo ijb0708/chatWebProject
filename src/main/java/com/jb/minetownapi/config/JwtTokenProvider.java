@@ -105,13 +105,4 @@ public class JwtTokenProvider {
 
         return new UsernamePasswordAuthenticationToken(getPk(token), "");
     }
-    
-    /**
-     *
-     * @param request
-     * @return
-     */
-    public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("Authentication");
-    }
 }

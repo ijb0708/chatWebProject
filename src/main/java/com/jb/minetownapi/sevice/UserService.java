@@ -3,6 +3,7 @@ package com.jb.minetownapi.sevice;
 import com.jb.minetownapi.config.JwtTokenProvider;
 import com.jb.minetownapi.dto.User;
 import com.jb.minetownapi.mapper.UserMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,23 +11,11 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final JwtTokenProvider jwtTokenProvider;
-
-    /**
-     * 생성자
-     * @param userMapper 유저관련 처리 매퍼
-     * @param jwtTokenProvider jwt 토큰 관련 컴포넌트
-     */
-    public UserService(
-            UserMapper userMapper,
-            JwtTokenProvider jwtTokenProvider) {
-
-        this.userMapper = userMapper;
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
 
     /**
      * 유저의 비밀번호가 옳은지 체크하는 함수
@@ -36,7 +25,7 @@ public class UserService {
     public Boolean checkLoginUserPassword(User user) {
 
         try {
-            String password = userMapper.selectPassword(user);  // 유저
+            String password = userMapper.selectOnePassword(user);  // 유저
             return passwordEncoder.matches(user.getUserPassword(), password);
         }catch(Exception e) {
             log.error(e.getMessage());
@@ -53,7 +42,7 @@ public class UserService {
     public User checkLoginUserId(String userId) {
         
         try {
-            return userMapper.selectUser(userId); // 유저 검색
+            return userMapper.selectOneUser(userId); // 유저 검색
         }catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -69,7 +58,7 @@ public class UserService {
     public Boolean findLoginUserId(String userId) {
         
         try {
-            User selectUserData = userMapper.selectUser(userId); // 유저 검색
+            User selectUserData = userMapper.selectOneUser(userId); // 유저 검색
             return selectUserData != null;
         }catch (Exception e) {
             log.error(e.getMessage());

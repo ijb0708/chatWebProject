@@ -8,8 +8,8 @@ public interface UserMapper {
     
     int insertUser(User user);
 
-    String selectPassword(User user);
+    String selectOnePassword(User user);
 
-    User selectUser(String userId);
+    User selectOneUser(String userId);
 
 }
