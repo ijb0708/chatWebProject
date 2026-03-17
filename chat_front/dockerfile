@@ -1,8 +1,17 @@
-FROM nginx:stable-alpine3.17
+FROM node:18-alpine AS build-stage
 
-WORKDIR /usr/share/nginx/html
+# work derectory setting
+WORKDIR /app
 
-COPY dist .
+# copy package.json, package-lock.json
+COPY package*.json ./
 
-EXPOSE 80
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+# install dependancy
+RUN npm install
+
+COPY . .
+# Build it!
+RUN npm run build 
+
+FROM scratch AS export-stage
+COPY --from=build-stage /app/dist /

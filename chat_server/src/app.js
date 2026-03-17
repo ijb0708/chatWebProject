@@ -14,9 +14,11 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// public 디렉토리를 정적 파일 경로로 설정
-app.use('/page', express.static(path.join(__dirname, 'public')));
+// test 용 html 파일들
+app.use('/test', express.static(path.join(__dirname, 'testPages')));
 
-app.use('/', routes);
+// 디렉토리를 정적 파일 경로로 설정
+app.use('/', express.static(path.join(__dirname, 'public')));
+app.use('/api', routes);
 
 export default app;
