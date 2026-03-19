@@ -1,7 +1,7 @@
 ## Chat Web front
  this program has been created by vueJs, it suppose what you chat other using simply process
 you need just id and password. 
-you can hosting on your local system esily.
+you can hosting on your local system easily.
 do it!.
 
 ## Environment 
