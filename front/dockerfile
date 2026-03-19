@@ -1,0 +1,26 @@
+FROM node:18-alpine AS build-stage
+
+# work derectory setting
+WORKDIR /app
+
+# values when it's vite build
+ARG VITE_BASE_URL
+ARG VITE_API_URL
+ARG VITE_SOCKET_URL
+
+# regi to envrionment valuses for vite build script
+ENV VITE_BASE_URL=$VITE_BASE_URL
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_SOCKET_URL=$VITE_SOCKET_URL
+
+# copy package.json, package-lock.json, install dependancy
+COPY package*.json ./
+RUN npm install
+
+# Build it!
+COPY . .
+RUN npm run build 
+
+# print ouput
+FROM scratch AS export-stage
+COPY --from=build-stage /app/dist /

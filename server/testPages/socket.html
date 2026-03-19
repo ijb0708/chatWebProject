@@ -8,7 +8,7 @@
 
     function connectWebSocket() {
       const token = localStorage.getItem('token')
-      socket = new WebSocket("ws://localhost:8080?token=" + token)
+      socket = new WebSocket("ws://localhost?token=" + token)
 
       socket.onopen = function(event) {
         console.log("WebSocket connected");
