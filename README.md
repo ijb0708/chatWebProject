@@ -1,13 +1,9 @@
 ## Chat Web front
- this program has been created by vueJs, it suppose what you chat other using simply process
-you need just id and password. 
+this program has been created by nodeJS, express, 
+you need just id and password if you use api server for chat. 
+it suppose what you chat other using simply process
 you can hosting on your local system esily.
-do it!.
-
-## Environment 
-Language: javascript
-engen: vueJS, npm
-build: vite
-etc: docker
 
 # how to use
+
+...
