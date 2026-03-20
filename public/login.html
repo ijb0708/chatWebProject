@@ -54,7 +54,7 @@
 
     // 서버로 로그인 요청 보내는 함수
     function login(user_id, user_password) {
-        return fetch('/users/login', {
+        return fetch('/api/users/login', {
             method: 'post',
             headers: {
               'Content-Type': 'application/json',

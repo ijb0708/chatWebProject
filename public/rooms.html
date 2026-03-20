@@ -64,7 +64,7 @@
         try{
             console.log(room_seq)
             const token = localStorage.getItem('token');
-            const response = await fetch('/rooms/enterRoom', {
+            const response = await fetch('/api/rooms/enterRoom', {
                 method: 'post',
                 headers: {
                     'Authorization': `Bearer ${token}`, // Authorization 헤더에 JWT 토큰을 포함
@@ -89,7 +89,7 @@
     }
 
     async function pageSelect(page)  {
-        const response = await fetch('/rooms/listRooms?pageNum=' + page + '&pageSize=5', {
+        const response = await fetch('/api/rooms/listRooms?pageNum=' + page + '&pageSize=5', {
             method: 'GET',
         })
         const retrunData = await response.json();
@@ -161,7 +161,7 @@
         const room_name = roomNameInput.value;
         const token = localStorage.getItem('token');
 
-        fetch('/rooms/register', {
+        fetch('/api/rooms/register', {
             method: 'post',
             headers: {
                 'Authorization': `Bearer ${token}`, // Authorization 헤더에 JWT 토큰을 포함
@@ -192,7 +192,7 @@
 
         messageOutputContainer.append("연결중입니다.\n")
         const token = localStorage.getItem('room_access_token')
-        socket = new WebSocket("ws://localhost:8080?token=" + token)
+        socket = new WebSocket("ws://localhost?token=" + token)
 
         socket.onopen = function(event) {
             console.log("WebSocket connected");
